@@ -20,8 +20,8 @@
         <thead class="thead-dark">
           <tr>
             <th scope="col">Output Type</th>
-            <th scope="col"><a href="#" id="getMoonPosition_link">getMoonPosition</a></th>
-            <th scope="col"><a href="#" id="getPosition_link">getPosition</a></th>
+            <th scope="col"><a href="#" id="getMoonPosition_link" target="_blank" rel="noopener noreferrer">getMoonPosition</a></th>
+            <th scope="col"><a href="#" id="getPosition_link" target="_blank" rel="noopener noreferrer">getPosition</a></th>
             <th scope="col">getMoonIllumination</th>
             <th scope="col">getTimes</th>
             <th scope="col">getMoonTimes</th>
@@ -128,7 +128,7 @@
     <div class="container-fluid">
       <form>
         <div class="form-group row">
-          <label for="date-input" class="col-2 col-form-label">Date</label>
+          <label for="date-input" class="col-2 col-form-label">Datetime</label>
           <div class="col-10">
             <input class="form-control" type="datetime-local" id="date-input" name="date_input" value="2019-01-06T16:17">
           </div>
@@ -160,8 +160,9 @@
       // var d = new Date(year, month, day, hours, minutes, seconds, milliseconds);
       var date = new Date(2019, 0, 6, 16, 17);
       var lng = 9.9937;
-      var lat = 22.5511;
+      var lat = 53.5511;
 
+      // uncomment to use hardcoded data
       // getData(date, lat, lng);
     </script>
 
