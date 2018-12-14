@@ -503,6 +503,17 @@ SunCalc.phase_hunt = function (sdate) {
   }
 }
 
+/**
+ * The time between moonset and sunset
+ * @param moonset Time of moonset 
+ *    Calculate via Sunrise.getMoonTimes(..).moonset
+ * @param sunset Time of sunset
+ *    Calculate via Sunrise.getTimes(..).sunset
+ */
+SunCalc.lagTime = function (moonset, sunset) {
+  return Math.abs(moonset - sunset)/(1000*60);
+}
+
 // export as Node module / AMD module / browser variable
 if (typeof exports === 'object' && typeof module !== 'undefined') module.exports = SunCalc;
 else if (typeof define === 'function' && define.amd) define(SunCalc);

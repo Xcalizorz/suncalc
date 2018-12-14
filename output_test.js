@@ -59,5 +59,10 @@ function getData (test_date, test_lat, test_lng) {
   document.getElementById("q3_date").innerHTML = phaseHuntData.q3_date;
   document.getElementById("nextnew_date").innerHTML = phaseHuntData.nextnew_date;
   
+  document.getElementById("getMoonTimes_moonset2").innerHTML = getMoonTimesData.set;
+  document.getElementById("getTimes_sunset2").innerHTML = getTimesData.sunset;
+  document.getElementById("lagTime").innerHTML = SunCalc.lagTime(getMoonTimesData.set, getTimesData.sunset) + " mins";
+
+
   return false;
 }
