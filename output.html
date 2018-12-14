@@ -89,6 +89,102 @@
           </tr>
           <!-- getTimes(date, lat, lng) -->
           <tr>
+            <th scope="row">Dawn</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td id="getTimes_dawn"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">Dusk</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td id="getTimes_dusk"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">Golden Hour</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td id="getTimes_goldenHour"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">Golden Hour End</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td id="getTimes_goldenHourEnd"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">Nautical Dawn</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td id="getTimes_nauticalDawn"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">Nautical Dusk</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td id="getTimes_nauticalDusk"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">Night</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td id="getTimes_night"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">Night End</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td id="getTimes_nightEnd"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">Sunrise</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td id="getTimes_sunrise"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">Sunrise End</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td id="getTimes_sunriseEnd"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">Sunset</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td id="getTimes_sunset"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row">Sunset Start</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td id="getTimes_sunsetStart"></td>
+            <td></td>
+          </tr>
+          <tr>
             <th scope="row">SolarNoon</th>
             <td></td>
             <td></td>
@@ -159,9 +255,10 @@
     <script>
       // var d = new Date(year, month, day, hours, minutes, seconds, milliseconds);
       var date = new Date(2019, 0, 6, 16, 17);
-      var lng = 9.9937;
       var lat = 53.5511;
+      var lng = 9.9937;
 
+      console.log(SunCalc.getTimes(date, lat, lng));
       // uncomment to use hardcoded data
       // getData(date, lat, lng);
     </script>
