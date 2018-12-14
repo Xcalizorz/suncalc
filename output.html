@@ -13,7 +13,7 @@
   <body>
     <div class="container-fluid">
       <h1>Testing suncalc.js</h1>
-      <h2 id="city_name_header">Hardcoded Parameter for </h2>
+      <h2>Hardcoded Parameter for <span id="city_name_header"></span></h2>
     
     <!-- Harcoded table output of test data for the specific city -->
       <table class="table">
@@ -126,7 +126,7 @@
     </div>
 
     <div class="container-fluid">
-      <form action="#">
+      <form>
         <div class="form-group row">
           <label for="date-input" class="col-2 col-form-label">Date</label>
           <div class="col-10">
@@ -145,7 +145,7 @@
             <input class="form-control" type="Number" step="any" value="9.9937" id="long-input" name="long_input">
           </div>
         </div>
-        <button id="dyn_form_button" type="submit" class="btn btn-primary" onclick="getData(date_input.valueAsNumber, lat_input.valueAsNumber, long_input.valueAsNumber)">Submit</button>
+        <button id="dyn_form_button" type="submit" class="btn btn-primary" onclick="getData(date_input.valueAsNumber, lat_input.valueAsNumber, long_input.valueAsNumber); return false;">Submit</button>
       </form>
     </div>
 
@@ -160,7 +160,7 @@
       // var d = new Date(year, month, day, hours, minutes, seconds, milliseconds);
       var date = new Date(2019, 0, 6, 16, 17);
       var lng = 9.9937;
-      var lat = 53.5511;
+      var lat = 22.5511;
 
       // getData(date, lat, lng);
     </script>

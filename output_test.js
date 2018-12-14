@@ -1,4 +1,4 @@
-function getData (test_date, test_lat, test_lng, city_name="") {
+function getData (test_date, test_lat, test_lng, city_information="") {
   var getMoonPosition_link = "getMoonPosition_link",
       getPosition_link = "getPosition_link",
       getMoonPosition_Azimuth = "getMoonPosition_Azimuth",
@@ -16,12 +16,12 @@ function getData (test_date, test_lat, test_lng, city_name="") {
       getPosition_altitude = "getPosition_altitude";
 
   debugger;
-  if (city_name==""){
-    city_name = parseFloat(test_lat) + ", " + parseFloat(test_lng);
+  if (city_information==""){
+    city_information = parseFloat(test_lat) + ", " + parseFloat(test_lng);
     test_date = new Date(test_date);
   }
 
-  document.getElementById("city_name_header").innerHTML += city_name;
+  document.getElementById("city_name_header").innerHTML = city_information;
 
   // reformatting date for comparison API
   var day = test_date.getDate(),
