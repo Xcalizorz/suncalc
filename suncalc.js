@@ -15,7 +15,8 @@ var PI   = Math.PI,
     asin = Math.asin,
     atan = Math.atan2,
     acos = Math.acos,
-    rad  = PI / 180;
+    rad  = PI / 180,
+    toDeg = (180 / PI);
 
 // sun calculations are based on http://aa.quae.nl/en/reken/zonpositie.html formulas
 
@@ -32,14 +33,17 @@ function toDays(date)   { return toJulian(date) - J2000; }
 
 
 // general calculations for position
+function toDegree(radians) {
+  return radians * 180 / Math.PI;
+}
 
 var e = rad * 23.4397; // obliquity of the Earth
 
 function rightAscension(l, b) { return atan(sin(l) * cos(e) - tan(b) * sin(e), cos(l)); }
 function declination(l, b)    { return asin(sin(b) * cos(e) + cos(b) * sin(e) * sin(l)); }
 
-function azimuth(H, phi, dec)  { return atan(sin(H), cos(H) * sin(phi) - tan(dec) * cos(phi)); }
-function altitude(H, phi, dec) { return asin(sin(phi) * sin(dec) + cos(phi) * cos(dec) * cos(H)); }
+function azimuth(H, phi, dec)  { return 180 + toDegree(atan(sin(H), cos(H) * sin(phi) - tan(dec) * cos(phi))); }
+function altitude(H, phi, dec) { return toDegree(asin(sin(phi) * sin(dec) + cos(phi) * cos(dec) * cos(H))); }
 
 function siderealTime(d, lw) { return rad * (280.16 + 360.9856235 * d) - lw; }
 
@@ -226,17 +230,49 @@ SunCalc.getMoonIllumination = function (date) {
         s = sunCoords(d),
         m = moonCoords(d),
 
-        sdist = 149598000, // distance from Earth to Sun in km
+        // according to https://www.space.com/17081-how-far-is-earth-from-the-sun.html
+        sdist = 149597870, // distance from Earth to Sun in km
 
         phi = acos(sin(s.dec) * sin(m.dec) + cos(s.dec) * cos(m.dec) * cos(s.ra - m.ra)),
         inc = atan(sdist * sin(phi), m.dist - sdist * cos(phi)),
         angle = atan(cos(s.dec) * sin(s.ra - m.ra), sin(s.dec) * cos(m.dec) -
-                cos(s.dec) * sin(m.dec) * cos(s.ra - m.ra));
+                cos(s.dec) * sin(m.dec) * cos(s.ra - m.ra)),
+        phase_original = 0.5 + 0.5 * inc * (angle < 0 ? -1 : 1) / Math.PI,
+        phase = parseFloat(phase_original).toFixed(8) + ", ";
+
+        switch(true) {
+          case phase_original == 0:
+            phase += "New Moon";
+            break;
+          case phase_original < 0.25:
+            phase += "Waxing Gibbous";
+            break;
+          case phase_original == 0.25:
+            phase += "First Quarter";
+            break;
+          case phase_original < 0.50:
+            phase += "Waxing Gibbous";
+            break;
+          case phase_original == 0.50:
+            phase += "Full Moon";
+            break;
+          case phase_original < 0.75:
+            phase += "Waning Gibbous";
+            break;
+          case phase_original == 0.75:
+            phase += "Last Quarter";
+            break;
+          case phase_original <= 1.00:
+            phase += "Waning Crescent";
+            break;
+          default:
+            phase = "Unknown";
+        }
 
     return {
-        fraction: (1 + cos(inc)) / 2,
-        phase: 0.5 + 0.5 * inc * (angle < 0 ? -1 : 1) / Math.PI,
-        angle: angle
+        fraction: parseFloat((((1 + cos(inc)) / 2) * 100).toFixed(4)),
+        phase: phase,
+        angle: toDegree(angle)
     };
 };
 
