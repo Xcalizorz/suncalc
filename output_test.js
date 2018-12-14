@@ -52,7 +52,7 @@ function getData (test_date, test_lat, test_lng) {
   document.getElementById("getPosition_azimuth").innerHTML = getPositionData.azimuth;
   document.getElementById("getPosition_altitude").innerHTML = getPositionData.altitude;
 
-  var phaseHuntData = SunCalc.phase_hunt(date);
+  var phaseHuntData = SunCalc.phase_hunt(test_date);
   document.getElementById("new_date").innerHTML = phaseHuntData.new_date;
   document.getElementById("q1_date").innerHTML = phaseHuntData.q1_date;
   document.getElementById("full_date").innerHTML = phaseHuntData.full_date;
