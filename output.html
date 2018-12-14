@@ -15,238 +15,157 @@
       <h1>Testing suncalc.js</h1>
       <h2>Parameter for <span id="city_name_header"></span></h2>
     
-    <!-- Harcoded table output of test data for the specific city -->
+      <div class="container-fluid table-responsive">
+          <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Dawn</th>
+                  <th scope="col">Dusk</th>
+                  <th scope="col">Golden Hour</th>
+                  <th scope="col">Golden Hour End</th>
+                  <th scope="col">Nautical Dawn</th>
+                  <th scope="col">Nautical Dusk</th>
+                  <th scope="col">Night</th>
+                  <th scope="col">Night End</th>
+                  <th scope="col">Sunrise</th>
+                  <th scope="col">Sunrise End</th>
+                  <th scope="col">Sunset</th>
+                  <th scope="col">Sunset Start</th>
+                  <th scope="col">Solarnoon</th>
+                  <th scope="col">Nadir</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">getTimes</th>
+                  <td id="getTimes_dawn"></td>
+                  <td id="getTimes_dusk"></td>
+                  <td id="getTimes_goldenHour"></td>
+                  <td id="getTimes_goldenHourEnd"></td>
+                  <td id="getTimes_nauticalDawn"></td>
+                  <td id="getTimes_nauticalDusk"></td>
+                  <td id="getTimes_night"></td>
+                  <td id="getTimes_nightEnd"></td>
+                  <td id="getTimes_sunrise"></td>
+                  <td id="getTimes_sunriseEnd"></td>
+                  <td id="getTimes_sunset"></td>
+                  <td id="getTimes_sunsetStart"></td>
+                  <td id="getTimes_solarNoon"></td>
+                  <td id="getTimes_nadir"></td>
+                </tr>
+              </tbody>
+        </table>
+      </div>
+
+      <div class="container-fluid">
+          <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Azimuth</th>
+                  <th scope="col">Altitude</th>
+                  <th scope="col">Distance</th>
+                  <th scope="col">Parallactic Angle</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row"><a href="#" id="getMoonPosition_link" target="_blank" rel="noopener noreferrer">getMoonPosition</a></th>
+                  <td id="getMoonPosition_Azimuth"></td>
+                  <td id="getMoonPosition_Altitude"></td>
+                  <td id="getMoonPosition_Distance"></td>
+                  <td id="getMoonPosition_ParallacticAngle"></td>
+                </tr>
+              </tbody>
+        </table>
+      </div>    
+
+      <div class="container-fluid">
+          <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Fraction</th>
+                  <th scope="col">Phase</th>
+                  <th scope="col">Angle</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">getMoonIllumination</th>
+                  <td id="getMoonIllumination_fraction"></td>
+                  <td id="getMoonIllumination_phase"></td>
+                  <td id="getMoonIllumination_angle"></td>
+                </tr>
+              </tbody>
+        </table>
+      </div>
+
+      <div class="container-fluid">
+          <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Moonrise</th>
+                  <th scope="col">Moonset</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">getMoonTimes</th>
+                  <td id="getMoonTimes_moonrise"></td>
+                  <td id="getMoonTimes_moonset"></td>
+                </tr>
+              </tbody>
+        </table>
+      </div>
+
+      <div class="container-fluid">
+          <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Azimuth</th>
+                  <th scope="col">Altitude</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row"><a href="#" id="getPosition_link" target="_blank" rel="noopener noreferrer">getPosition</a></th>
+                  <td id="getPosition_azimuth"></td>
+                  <td id="getPosition_altitude"></td>
+                </tr>
+              </tbody>
+        </table>
+      </div>
+
+      <div class="container-fluid">
       <table class="table">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">Output Type</th>
-            <th scope="col"><a href="#" id="getMoonPosition_link" target="_blank" rel="noopener noreferrer">getMoonPosition</a></th>
-            <th scope="col"><a href="#" id="getPosition_link" target="_blank" rel="noopener noreferrer">getPosition</a></th>
-            <th scope="col">getMoonIllumination</th>
-            <th scope="col">getTimes</th>
-            <th scope="col">getMoonTimes</th>
-          </tr>
-        </thead>
-        <tbody>
-        <!-- getMoonPosition(date, lat, lng) -->
-        <!-- getPosition(date, lat, lng) -->
-          <tr>
-            <th scope="row">Azimuth</th>
-            <td id="getMoonPosition_Azimuth"></td>
-            <td id="getPosition_azimuth"></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">Altitude</th>
-            <td id="getMoonPosition_Altitude"></td>
-            <td id="getPosition_altitude"></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">Distance</th>
-            <td id="getMoonPosition_Distance"></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">ParallacticAngle</th>
-            <td id="getMoonPosition_ParallacticAngle"></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <!-- getMoonIllumination(date) -->
-          <tr>
-            <th scope="row">Fraction</th>
-            <td></td>
-            <td></td>
-            <td id="getMoonIllumination_fraction"></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">Phase</th>
-            <td></td>
-            <td></td>
-            <td id="getMoonIllumination_phase"></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">Angle</th>
-            <td></td>
-            <td></td>
-            <td id="getMoonIllumination_angle"></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <!-- getTimes(date, lat, lng) -->
-          <tr>
-            <th scope="row">Dawn</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td id="getTimes_dawn"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">Dusk</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td id="getTimes_dusk"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">Golden Hour</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td id="getTimes_goldenHour"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">Golden Hour End</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td id="getTimes_goldenHourEnd"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">Nautical Dawn</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td id="getTimes_nauticalDawn"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">Nautical Dusk</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td id="getTimes_nauticalDusk"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">Night</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td id="getTimes_night"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">Night End</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td id="getTimes_nightEnd"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">Sunrise</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td id="getTimes_sunrise"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">Sunrise End</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td id="getTimes_sunriseEnd"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">Sunset</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td id="getTimes_sunset"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">Sunset Start</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td id="getTimes_sunsetStart"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">SolarNoon</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td id="getTimes_solarNoon"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">Nadir</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td id="getTimes_nadir"></td>
-            <td></td>
-          </tr>
-          <!-- getMoonTimes(date, lat,lng, inUTC) -->
-          <tr>
-            <th scope="row">Moonrise</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td id="getMoonTimes_moonrise"></td>
-          </tr>
-          <tr>
-            <th scope="row">Moonset</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td id="getMoonTimes_moonset"></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Recent New Moon</th>
+              <th scope="col">First Quarter</th>
+              <th scope="col">Full Moon</th>
+              <th scope="col">3rd Quarter</th>
+              <th scope="col">Next New Moon</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">phase_hunt()</th>
+              <td id="new_date"></td>
+              <td id="q1_date"></td>
+              <td id="full_date"></td>
+              <td id="q3_date"></td>
+              <td id="nextnew_date"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-  <div class="container-fluid">
-    <table class="table">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Recent New Moon</th>
-            <th scope="col">First Quarter</th>
-            <th scope="col">Full Moon</th>
-            <th scope="col">3rd Quarter</th>
-            <th scope="col">Next New Moon</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">phase_hunt()</th>
-            <td id="new_date"></td>
-            <td id="q1_date"></td>
-            <td id="full_date"></td>
-            <td id="q3_date"></td>
-            <td id="nextnew_date"></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="container-fluid">
+      <div class="container-fluid">
         <table class="table">
             <thead class="thead-dark">
               <tr>
@@ -267,30 +186,31 @@
               </tr>
             </tbody>
           </table>
-        </div>
+      </div>
 
-    <div class="container-fluid">
-      <form>
-        <div class="form-group row">
-          <label for="date-input" class="col-2 col-form-label">Datetime</label>
-          <div class="col-10">
-            <input class="form-control" type="datetime-local" id="date-input" name="date_input" value="2019-01-06T16:17">
+      <div class="container-fluid">
+        <form>
+          <div class="form-group row">
+            <label for="date-input" class="col-2 col-form-label">Datetime</label>
+            <div class="col-10">
+              <input class="form-control" type="datetime-local" id="date-input" name="date_input" value="2019-01-06T16:17">
+            </div>
           </div>
-        </div>
-        <div class="form-group row">
-          <label for="lat-input" class="col-2 col-form-label">Latitude</label>
-          <div class="col-10">
-            <input class="form-control" type="Number" step="any" value="53.5511" id="lat-input" name="lat_input">
+          <div class="form-group row">
+            <label for="lat-input" class="col-2 col-form-label">Latitude</label>
+            <div class="col-10">
+              <input class="form-control" type="Number" step="any" value="53.5511" id="lat-input" name="lat_input">
+            </div>
           </div>
-        </div>
-        <div class="form-group row">
-          <label for="long-input" class="col-2 col-form-label">Longitude</label>
-          <div class="col-10">
-            <input class="form-control" type="Number" step="any" value="9.9937" id="long-input" name="long_input">
+          <div class="form-group row">
+            <label for="long-input" class="col-2 col-form-label">Longitude</label>
+            <div class="col-10">
+              <input class="form-control" type="Number" step="any" value="9.9937" id="long-input" name="long_input">
+            </div>
           </div>
-        </div>
-        <button id="dyn_form_button" type="submit" class="btn btn-primary" onclick="getData(date_input.valueAsNumber, lat_input.valueAsNumber, long_input.valueAsNumber); return false;">Submit</button>
-      </form>
+          <button id="dyn_form_button" type="submit" class="btn btn-primary" onclick="getData(date_input.valueAsNumber, lat_input.valueAsNumber, long_input.valueAsNumber); return false;">Submit</button>
+        </form>
+      </div>
     </div>
 
     <!-- Ajax -->
