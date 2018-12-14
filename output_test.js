@@ -61,7 +61,7 @@ function getData (test_date, test_lat, test_lng) {
   
   document.getElementById("getMoonTimes_moonset2").innerHTML = getMoonTimesData.set;
   document.getElementById("getTimes_sunset2").innerHTML = getTimesData.sunset;
-  document.getElementById("lagTime").innerHTML = SunCalc.lagTime(getMoonTimesData.set, getTimesData.sunset) + " mins";
+  document.getElementById("lagTime").innerHTML = SunCalc.lagTime(getMoonTimesData.set, getTimesData.sunset);
 
 
   return false;
