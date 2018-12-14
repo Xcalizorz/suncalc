@@ -52,5 +52,12 @@ function getData (test_date, test_lat, test_lng) {
   document.getElementById("getPosition_azimuth").innerHTML = getPositionData.azimuth;
   document.getElementById("getPosition_altitude").innerHTML = getPositionData.altitude;
 
+  var phaseHuntData = SunCalc.phase_hunt(date);
+  document.getElementById("new_date").innerHTML = phaseHuntData.new_date;
+  document.getElementById("q1_date").innerHTML = phaseHuntData.q1_date;
+  document.getElementById("full_date").innerHTML = phaseHuntData.full_date;
+  document.getElementById("q3_date").innerHTML = phaseHuntData.q3_date;
+  document.getElementById("nextnew_date").innerHTML = phaseHuntData.nextnew_date;
+  
   return false;
 }

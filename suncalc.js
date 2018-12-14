@@ -337,6 +337,171 @@ SunCalc.getMoonTimes = function (date, lat, lng, inUTC) {
     return result;
 };
 
+/** Julian Calculations */
+function fromDate (date) {
+  return date.getTime() / 86400000 + 2440587.5
+}
+
+function toDate (julian) {
+  return new Date((julian - 2440587.5) * 86400000)
+}
+
+// Synodic month (new Moon to new Moon), in days
+var SYNODIC_MONTH = 29.53058868
+// Phases of the moon & precision
+var NEW = 0
+var FIRST = 1
+var FULL = 2
+var LAST = 3
+var PHASE_MASK = 3
+
+// sin cos functions
+function dsin (d) {
+  return Math.sin(torad(d))
+}
+
+function dcos (d) {
+  return Math.cos(torad(d))
+}
+
+/**
+ * Calculates time of the mean new Moon for a given base date.
+ * This argument K to this function is the precomputed synodic month
+ * index, given by:
+ *   K = (year - 1900) * 12.3685
+ * where year is expressed as a year and fractional year.
+ * @param  {Date} sdate   Start date
+ * @param  {[type]} k     [description]
+ * @return {[type]}       [description]
+ */
+function meanphase (sdate, k) {
+  // Time in Julian centuries from 1900 January 12 noon UTC
+  var delta_t = (sdate - -2208945600000.0) / 86400000.0;
+  var t = delta_t / 36525;
+  return 2415020.75933 +
+    SYNODIC_MONTH * k +
+    (0.0001178 - 0.000000155 * t) * t * t +
+    0.00033 * dsin(166.56 + (132.87 - 0.009173 * t) * t);
+}
+
+/**
+ * Given a K value used to determine the mean phase of the new moon, and a
+ * phase selector (0, 1, 2, 3), obtain the true, corrected phase time.
+ * @param  {[type]} k      [description]
+ * @param  {[type]} tphase [description]
+ * @return {[type]}        [description]
+ */
+function truephase (k, tphase) {
+  // restrict tphase to (0, 1, 2, 3)
+  tphase = tphase & PHASE_MASK;
+
+  // add phase to new moon time
+  k = k + 0.25 * tphase;
+
+  // Time in Julian centuries from 1900 January 0.5
+  var t = (1.0 / 1236.85) * k;
+
+  // Mean time of phase
+  var pt = 2415020.75933 +
+    SYNODIC_MONTH * k +
+    (0.0001178 - 0.000000155 * t) * t * t +
+    0.00033 * dsin(166.56 + (132.87 - 0.009173 * t) * t);
+
+  // Sun's mean anomaly
+  var m = 359.2242 + 29.10535608 * k - (0.0000333 - 0.00000347 * t) * t * t;
+
+  // Moon's mean anomaly
+  var mprime = 306.0253 + 385.81691806 * k + (0.0107306 + 0.00001236 * t) * t * t;
+
+  // Moon's argument of latitude
+  var f = 21.2964 + 390.67050646 * k - (0.0016528 - 0.00000239 * t) * t * t;
+
+  // use different correction equations depending on the phase being sought
+  switch (tphase) {
+    // new and full moon use one correction
+    case NEW:
+    case FULL:
+      pt += (0.1734 - 0.000393 * t) * dsin(m) +
+        0.0021 * dsin(2 * m) -
+        0.4068 * dsin(mprime) +
+        0.0161 * dsin(2 * mprime) -
+        0.0004 * dsin(3 * mprime) +
+        0.0104 * dsin(2 * f) -
+        0.0051 * dsin(m + mprime) -
+        0.0074 * dsin(m - mprime) +
+        0.0004 * dsin(2 * f + m) -
+        0.0004 * dsin(2 * f - m) -
+        0.0006 * dsin(2 * f + mprime) +
+        0.0010 * dsin(2 * f - mprime) +
+        0.0005 * dsin(m + 2 * mprime);
+      break;
+
+    // first and last quarter moon use a different correction
+    case FIRST:
+    case LAST:
+      pt += (0.1721 - 0.0004 * t) * dsin(m) +
+        0.0021 * dsin(2 * m) -
+        0.6280 * dsin(mprime) +
+        0.0089 * dsin(2 * mprime) -
+        0.0004 * dsin(3 * mprime) +
+        0.0079 * dsin(2 * f) -
+        0.0119 * dsin(m + mprime) -
+        0.0047 * dsin(m - mprime) +
+        0.0003 * dsin(2 * f + m) -
+        0.0004 * dsin(2 * f - m) -
+        0.0006 * dsin(2 * f + mprime) +
+        0.0021 * dsin(2 * f - mprime) +
+        0.0003 * dsin(m + 2 * mprime) +
+        0.0004 * dsin(m - 2 * mprime) -
+        0.0003 * dsin(2 * m + mprime);
+
+      // the sign of the last term depends on whether we're looking for a first
+      // or last quarter moon!
+      var sign = (tphase < FULL) ? +1 : -1;
+      pt += sign * (0.0028 - 0.0004 * dcos(m) + 0.0003 * dcos(mprime));
+
+      break;
+  }
+
+  return toDate(pt);
+}
+
+/**
+ * Find time of phases of the moon which surround the current date.
+ * Five phases are found, starting and ending with the new moons
+ * which bound the current lunation.
+ * @param  {Date} sdate Date to start hunting from (defaults to current date)
+ * @return {Object}     Object containing recent past and future phases
+ */
+SunCalc.phase_hunt = function (sdate) {
+  if (!sdate) {
+    sdate = new Date();
+  }
+
+  var adate = new Date(sdate.getTime() - (45 * 86400000)); // 45 days prior
+  var k1 = Math.floor(12.3685 * (adate.getFullYear() + (1.0 / 12.0) * adate.getMonth() - 1900));
+  var nt1 = meanphase(adate.getTime(), k1);
+
+  sdate = fromDate(sdate);
+  adate = nt1 + SYNODIC_MONTH;
+  var k2 = k1 + 1;
+  var nt2 = meanphase(adate, k2);
+  while (nt1 > sdate || sdate >= nt2) {
+    adate += SYNODIC_MONTH;
+    k1++;
+    k2++;
+    nt1 = nt2;
+    nt2 = meanphase(adate, k2);
+  }
+
+  return {
+    new_date: truephase(k1, NEW),
+    q1_date: truephase(k1, FIRST),
+    full_date: truephase(k1, FULL),
+    q3_date: truephase(k1, LAST),
+    nextnew_date: truephase(k2, NEW)
+  }
+}
 
 // export as Node module / AMD module / browser variable
 if (typeof exports === 'object' && typeof module !== 'undefined') module.exports = SunCalc;

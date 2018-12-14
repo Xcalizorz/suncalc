@@ -221,6 +221,33 @@
       </table>
     </div>
 
+  <div class="container-fluid">
+    <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Recent New Moon</th>
+            <th scope="col">First Quarter</th>
+            <th scope="col">Full Moon</th>
+            <th scope="col">3rd Quarter</th>
+            <th scope="col">Next New Moon</th>
+          </tr>
+        </thead>
+        <tbody>
+        <!-- getMoonPosition(date, lat, lng) -->
+        <!-- getPosition(date, lat, lng) -->
+          <tr>
+            <th scope="row">phase_hunt()</th>
+            <td id="new_date"></td>
+            <td id="q1_date"></td>
+            <td id="full_date"></td>
+            <td id="q3_date"></td>
+            <td id="nextnew_date"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
     <div class="container-fluid">
       <form>
         <div class="form-group row">
@@ -251,12 +278,17 @@
     <!-- Suncalc JS -->
     <script type="text/javascript" src="./suncalc.js"></script>
     <script type="text/javascript" src="./output_test.js"></script>
+    <script type="text/javascript" src="./lune.js"></script>
 
     <script>
       // var d = new Date(year, month, day, hours, minutes, seconds, milliseconds);
       var date = new Date(2019, 0, 6, 16, 17);
       var lat = 53.5511;
       var lng = 9.9937;
+    
+      console.log(
+        SunCalc.phase_hunt(date)
+      );
 
       // uncomment to use hardcoded data
       // getData(date, lat, lng);
