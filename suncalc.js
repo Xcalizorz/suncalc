@@ -15,11 +15,21 @@ var PI   = Math.PI,
     asin = Math.asin,
     atan = Math.atan2,
     acos = Math.acos,
-    rad  = PI / 180,
-    toDeg = (180 / PI);
+    rad  = PI / 180;
 
 // sun calculations are based on http://aa.quae.nl/en/reken/zonpositie.html formulas
+/**
+ * Convert degrees to radians
+ * @param  {Number} d Angle in degrees
+ * @return {Number}   Angle in radians
+ */
+function torad (d) {
+  return (Math.PI / 180.0) * d
+}
 
+function todeg (r) {
+  return (180.0 / Math.PI) * r
+}
 
 // date/time constants and conversions
 
@@ -32,18 +42,14 @@ function fromJulian(j)  { return new Date((j + 0.5 - J1970) * dayMs); }
 function toDays(date)   { return toJulian(date) - J2000; }
 
 
-// general calculations for position
-function toDegree(radians) {
-  return radians * 180 / Math.PI;
-}
 
 var e = rad * 23.4397; // obliquity of the Earth
 
 function rightAscension(l, b) { return atan(sin(l) * cos(e) - tan(b) * sin(e), cos(l)); }
 function declination(l, b)    { return asin(sin(b) * cos(e) + cos(b) * sin(e) * sin(l)); }
 
-function azimuth(H, phi, dec)  { return 180 + toDegree(atan(sin(H), cos(H) * sin(phi) - tan(dec) * cos(phi))); }
-function altitude(H, phi, dec) { return toDegree(asin(sin(phi) * sin(dec) + cos(phi) * cos(dec) * cos(H))); }
+function azimuth(H, phi, dec)  { return 180 + todeg(atan(sin(H), cos(H) * sin(phi) - tan(dec) * cos(phi))); }
+function altitude(H, phi, dec) { return todeg(asin(sin(phi) * sin(dec) + cos(phi) * cos(dec) * cos(H))); }
 
 function siderealTime(d, lw) { return rad * (280.16 + 360.9856235 * d) - lw; }
 
@@ -272,7 +278,7 @@ SunCalc.getMoonIllumination = function (date) {
     return {
         fraction: parseFloat((((1 + cos(inc)) / 2) * 100).toFixed(4)),
         phase: phase,
-        angle: toDegree(angle)
+        angle: todeg(angle)
     };
 };
 
@@ -362,41 +368,41 @@ var PHASE_MASK = 3
 // XXX: even though 2444239.5 is correct for the 1 Jan 1980, 2444238.5 gives
 // better accuracy results... possibly somebody chose all of the below
 // constants based on the wrong epoch?
-const EPOCH = 2444238.5
+var EPOCH = 2444238.5
 
 // Ecliptic longitude of the Sun at epoch 1980.0
-const ECLIPTIC_LONGITUDE_EPOCH = 278.833540
+var ECLIPTIC_LONGITUDE_EPOCH = 278.833540
 
 // Ecliptic longitude of the Sun at perigee
-const ECLIPTIC_LONGITUDE_PERIGEE = 282.596403
+var ECLIPTIC_LONGITUDE_PERIGEE = 282.596403
 
 // Eccentricity of Earth's orbit
-const ECCENTRICITY = 0.016718
+var ECCENTRICITY = 0.016718
 
 // Semi-major axis of Earth's orbit, in kilometers
-const SUN_SMAXIS = 1.49585e8
+var SUN_SMAXIS = 1.49585e8
 
 // Sun's angular size, in degrees, at semi-major axis distance
-const SUN_ANGULAR_SIZE_SMAXIS = 0.533128
+var SUN_ANGULAR_SIZE_SMAXIS = 0.533128
 
 // Elements of the Moon's orbit, epoch 1980.0
 // Moon's mean longitude at the epoch
-const MOON_MEAN_LONGITUDE_EPOCH = 64.975464
+var MOON_MEAN_LONGITUDE_EPOCH = 64.975464
 
 // Mean longitude of the perigee at the epoch
-const MOON_MEAN_PERIGEE_EPOCH = 349.383063
+var MOON_MEAN_PERIGEE_EPOCH = 349.383063
 
 // Eccentricity of the Moon's orbit
-const MOON_ECCENTRICITY = 0.054900
+var MOON_ECCENTRICITY = 0.054900
 
 // Semi-major axis of the Moon's orbit, in kilometers
-const MOON_SMAXIS = 384401.0
+var MOON_SMAXIS = 384401.0
 
 // MOON_SMAXIS premultiplied by the angular size of the Moon from the Earth
-const MOON_ANGULAR_SIZE_SMAXIS = MOON_SMAXIS * 0.5181
+var MOON_ANGULAR_SIZE_SMAXIS = MOON_SMAXIS * 0.5181
 
 // Synodic month (new Moon to new Moon), in days
-const SYNODIC_MONTH = 29.53058868
+var SYNODIC_MONTH = 29.53058868
 
 
 // sin cos functions
@@ -406,6 +412,30 @@ function dsin (d) {
 
 function dcos (d) {
   return Math.cos(torad(d))
+}
+
+/**
+ * Solve the equation of Kepler.
+ */
+function kepler (m, ecc) {
+  var epsilon = 1e-6;
+
+  m = torad(m);
+  var e = m;
+  while (1) {
+    var delta = e - ecc * Math.sin(e) - m;
+    e -= delta / (1.0 - ecc * Math.cos(e));
+
+    if (Math.abs(delta) <= epsilon) {
+      break;
+    }
+  }
+
+  return e;
+}
+
+function fixangle (a) {
+  return a - 360.0 * Math.floor(a / 360.0);
 }
 
 /**
@@ -555,63 +585,63 @@ SunCalc.phase_hunt = function (sdate) {
  */
 SunCalc.phase = function (phase_date) {
   if (!phase_date) {
-    phase_date = new Date()
+    phase_date = new Date();
   }
-  phase_date = fromDate(phase_date)
+  phase_date = fromDate(phase_date);
 
-  const day = phase_date - EPOCH
+  var day = phase_date - EPOCH;
 
   // calculate sun position
-  const sun_mean_anomaly =
+  var sun_mean_anomaly =
     (360.0 / 365.2422) * day +
-    (ECLIPTIC_LONGITUDE_EPOCH - ECLIPTIC_LONGITUDE_PERIGEE)
-  const sun_true_anomaly =
-    2 * toDegree(Math.atan(
-      Math.sqrt((1.0 + ECCENTRICITY) / (1.0 - ECCENTRICITY)) *
-      Math.tan(0.5 * kepler(sun_mean_anomaly, ECCENTRICITY))
-    ))
-  const sun_ecliptic_longitude =
-    ECLIPTIC_LONGITUDE_PERIGEE + sun_true_anomaly
-  const sun_orbital_distance_factor =
+    (ECLIPTIC_LONGITUDE_EPOCH - ECLIPTIC_LONGITUDE_PERIGEE);
+  var sun_true_anomaly =
+    2 * todeg(
+      Math.atan(Math.sqrt((1.0 + ECCENTRICITY) / (1.0 - ECCENTRICITY)) *
+      Math.tan(0.5 * kepler(sun_mean_anomaly, ECCENTRICITY)))
+    );
+  var sun_ecliptic_longitude =
+    ECLIPTIC_LONGITUDE_PERIGEE + sun_true_anomaly;
+  var sun_orbital_distance_factor =
     (1 + ECCENTRICITY * dcos(sun_true_anomaly)) /
-    (1 - ECCENTRICITY * ECCENTRICITY)
+    (1 - ECCENTRICITY * ECCENTRICITY);
 
   // calculate moon position
-  const moon_mean_longitude =
-    MOON_MEAN_LONGITUDE_EPOCH + 13.1763966 * day
-  const moon_mean_anomaly =
-    moon_mean_longitude - 0.1114041 * day - MOON_MEAN_PERIGEE_EPOCH
-  const moon_evection =
+  var moon_mean_longitude =
+    MOON_MEAN_LONGITUDE_EPOCH + 13.1763966 * day;
+  var moon_mean_anomaly =
+    moon_mean_longitude - 0.1114041 * day - MOON_MEAN_PERIGEE_EPOCH;
+  var moon_evection =
     1.2739 * dsin(
       2 * (moon_mean_longitude - sun_ecliptic_longitude) - moon_mean_anomaly
-    )
-  const moon_annual_equation =
-    0.1858 * dsin(sun_mean_anomaly)
+    );
+  var moon_annual_equation =
+    0.1858 * dsin(sun_mean_anomaly);
   // XXX: what is the proper name for this value?
-  const moon_mp =
+  var moon_mp =
     moon_mean_anomaly +
     moon_evection -
     moon_annual_equation -
-    0.37 * dsin(sun_mean_anomaly)
-  const moon_equation_center_correction =
-    6.2886 * dsin(moon_mp)
-  const moon_corrected_longitude =
+    0.37 * dsin(sun_mean_anomaly);
+  var moon_equation_center_correction =
+    6.2886 * dsin(moon_mp);
+  var moon_corrected_longitude =
     moon_mean_longitude +
     moon_evection +
     moon_equation_center_correction -
     moon_annual_equation +
-    0.214 * dsin(2.0 * moon_mp)
-  const moon_age =
+    0.214 * dsin(2.0 * moon_mp);
+  var moon_age =
     fixangle(
       moon_corrected_longitude -
       sun_ecliptic_longitude +
       0.6583 * dsin(
         2 * (moon_corrected_longitude - sun_ecliptic_longitude)
       )
-    )
-  const moon_distance =
+    );
+  var moon_distance =
     (MOON_SMAXIS * (1.0 - MOON_ECCENTRICITY * MOON_ECCENTRICITY)) /
-    (1.0 + MOON_ECCENTRICITY * dcos(moon_mp + moon_equation_center_correction))
+    (1.0 + MOON_ECCENTRICITY * dcos(moon_mp + moon_equation_center_correction));
 
   return {
     phase: (1.0 / 360.0) * moon_age,
@@ -621,7 +651,7 @@ SunCalc.phase = function (phase_date) {
     angular_diameter: MOON_ANGULAR_SIZE_SMAXIS / moon_distance,
     sun_distance: SUN_SMAXIS / sun_orbital_distance_factor,
     sun_angular_diameter: SUN_ANGULAR_SIZE_SMAXIS * sun_orbital_distance_factor
-  }
+  };
 }
 
 /**
