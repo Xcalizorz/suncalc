@@ -510,7 +510,7 @@ SunCalc.phase_hunt = function (sdate) {
  * @param {Int} msec_num Milliseconds 
  */
 function toHHMMSS (msec_num) {
-  var sec_num = msec_num;
+  var sec_num = msec_num / 1000;
   var days = Math.floor(sec_num / (3600*24))
   var hours   = Math.floor((sec_num - (days * 3600 * 24)) / 3600);
   var minutes = Math.floor((sec_num - (days * 3600 * 24) - (hours * 3600)) / 60);
