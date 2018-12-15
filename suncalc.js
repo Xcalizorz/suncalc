@@ -526,9 +526,9 @@ function toHHMMSS (msec_num) {
 
   seconds = seconds.toFixed(2);
 
-  if (hours   < 10 && hours > -10) {hours   = "0"+hours;}
-  if (minutes < 10 && minutes > -10) {minutes = "0"+minutes;}
-  if (seconds < 10 && seconds > -10) {seconds = "0"+seconds;}
+  if (0 <= hours && hours < 10) {hours   = "0"+hours;}
+  if (minutes < 10) {minutes = "0"+minutes;}
+  if (seconds < 10) {seconds = "0"+seconds;}
   return days+' days, '+hours+':'+minutes+':'+seconds;
 }
 
