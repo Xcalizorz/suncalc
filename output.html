@@ -2,11 +2,11 @@
 <html lang="en">
   <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes"/>
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
 
     <title>Testing suncalc.js</title>
   </head>
@@ -237,7 +237,7 @@
               <input class="form-control" type="Number" step="any" value="9.9937" id="long-input" name="long_input">
             </div>
           </div>
-          <button id="dyn_form_button" type="submit" class="btn btn-primary" onclick="getData(date_input.valueAsNumber, lat_input.valueAsNumber, long_input.valueAsNumber); return false;">Submit</button>
+          <button id="dyn_form_button" type="submit" class="btn btn-primary" onclick="getData(date_input, lat_input, long_input); return false;">Submit</button>
         </form>
       </div>
     </div>
@@ -249,16 +249,6 @@
     <script type="text/javascript" src="./suncalc.js"></script>
     <script type="text/javascript" src="./output_test.js"></script>
     <script type="text/javascript" src="./lune.js"></script>
-
-    <script>
-      // var d = new Date(year, month, day, hours, minutes, seconds, milliseconds);
-      var date = new Date(2019, 0, 6, 16, 17);
-      var lat = 53.5511;
-      var lng = 9.9937;
-
-      // uncomment to use hardcoded data
-      // getData(date, lat, lng);
-    </script>
 
 
     <!-- Optional JavaScript -->

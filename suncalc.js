@@ -632,7 +632,6 @@ SunCalc.phase = function (phase_date) {
  */
 function toHHMMSS (msec_num) {
   var sec_num = msec_num / 1000;
-  debugger;
 
   var days = Math.floor(sec_num / (3600*24))
   var hours   = Math.floor((sec_num - (days * 3600 * 24)) / 3600);

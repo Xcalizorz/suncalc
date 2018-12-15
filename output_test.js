@@ -1,5 +1,8 @@
 function getData (test_date, test_lat, test_lng) {
-  test_date = new Date(test_date);
+  test_lat = parseFloat(test_lat.value);
+  test_lng = parseFloat(test_lng.value);
+
+  test_date = new Date(test_date.value);
   city_information = parseFloat(test_lat) + ", " + parseFloat(test_lng) + " @ " + test_date;
   document.getElementById("city_name_header").innerHTML = city_information;
 
