@@ -512,15 +512,23 @@ SunCalc.phase_hunt = function (sdate) {
 function toHHMMSS (msec_num) {
   var sec_num = msec_num / 1000;
   debugger;
+
   var days = Math.floor(sec_num / (3600*24))
   var hours   = Math.floor((sec_num - (days * 3600 * 24)) / 3600);
   var minutes = Math.floor((sec_num - (days * 3600 * 24) - (hours * 3600)) / 60);
   var seconds = sec_num - (days * 3600 * 24) - (hours * 3600) - (minutes * 60);
+  
+  if (days < 0) {
+    var daysHourDifference = days*24 + hours;
+    days -= Math.floor(daysHourDifference / 24);
+    hours = Math.floor((daysHourDifference - (days * 24)));
+  }
 
-  debugger;
-  if (hours   < 10) {hours   = "0"+hours;}
-  if (minutes < 10) {minutes = "0"+minutes;}
-  if (seconds < 10) {seconds = "0"+seconds.toFixed(2);}
+  seconds = seconds.toFixed(2);
+
+  if (hours   < 10 && hours > -10) {hours   = "0"+hours;}
+  if (minutes < 10 && minutes > -10) {minutes = "0"+minutes;}
+  if (seconds < 10 && seconds > -10) {seconds = "0"+seconds;}
   return days+' days, '+hours+':'+minutes+':'+seconds;
 }
 
@@ -532,7 +540,7 @@ function toHHMMSS (msec_num) {
  *    Calculate via Sunrise.getTimes(..).sunset
  */
 SunCalc.lagTime = function (moonset, sunset) {
-  return toHHMMSS(Math.abs(moonset-sunset));
+  return toHHMMSS(moonset-sunset);
 }
 
 // export as Node module / AMD module / browser variable
