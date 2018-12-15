@@ -63,6 +63,14 @@ function getData (test_date, test_lat, test_lng) {
   document.getElementById("getTimes_sunset2").innerHTML = getTimesData.sunset;
   document.getElementById("lagTime").innerHTML = SunCalc.lagTime(getMoonTimesData.set, getTimesData.sunset);
 
+  var phaseData = SunCalc.phase(test_date);
+  document.getElementById("p_age").innerHTML = phaseData.age;
+  document.getElementById("p_angular_diameter").innerHTML = phaseData.angular_diameter;
+  document.getElementById("p_moon_earth_distance").innerHTML = phaseData.distance;
+  document.getElementById("p_illuminated").innerHTML = phaseData.illuminated;
+  document.getElementById("p_phase").innerHTML = phaseData.phase;
+  document.getElementById("p_sun_angular_diameter").innerHTML = phaseData.sun_angular_diameter;
+  document.getElementById("p_sun_distance").innerHTML = phaseData.sun_distance;
 
   return false;
 }

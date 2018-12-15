@@ -346,14 +346,58 @@ function toDate (julian) {
   return new Date((julian - 2440587.5) * 86400000)
 }
 
-// Synodic month (new Moon to new Moon), in days
-var SYNODIC_MONTH = 29.53058868
+
 // Phases of the moon & precision
 var NEW = 0
 var FIRST = 1
 var FULL = 2
 var LAST = 3
 var PHASE_MASK = 3
+
+// Astronomical Constants
+// JDN stands for Julian Day Number
+// Angles here are in degrees
+// 1980 January 0.0 in JDN
+// XXX: DateTime(1980).jdn yields 2444239.5 -- which one is right?
+// XXX: even though 2444239.5 is correct for the 1 Jan 1980, 2444238.5 gives
+// better accuracy results... possibly somebody chose all of the below
+// constants based on the wrong epoch?
+const EPOCH = 2444238.5
+
+// Ecliptic longitude of the Sun at epoch 1980.0
+const ECLIPTIC_LONGITUDE_EPOCH = 278.833540
+
+// Ecliptic longitude of the Sun at perigee
+const ECLIPTIC_LONGITUDE_PERIGEE = 282.596403
+
+// Eccentricity of Earth's orbit
+const ECCENTRICITY = 0.016718
+
+// Semi-major axis of Earth's orbit, in kilometers
+const SUN_SMAXIS = 1.49585e8
+
+// Sun's angular size, in degrees, at semi-major axis distance
+const SUN_ANGULAR_SIZE_SMAXIS = 0.533128
+
+// Elements of the Moon's orbit, epoch 1980.0
+// Moon's mean longitude at the epoch
+const MOON_MEAN_LONGITUDE_EPOCH = 64.975464
+
+// Mean longitude of the perigee at the epoch
+const MOON_MEAN_PERIGEE_EPOCH = 349.383063
+
+// Eccentricity of the Moon's orbit
+const MOON_ECCENTRICITY = 0.054900
+
+// Semi-major axis of the Moon's orbit, in kilometers
+const MOON_SMAXIS = 384401.0
+
+// MOON_SMAXIS premultiplied by the angular size of the Moon from the Earth
+const MOON_ANGULAR_SIZE_SMAXIS = MOON_SMAXIS * 0.5181
+
+// Synodic month (new Moon to new Moon), in days
+const SYNODIC_MONTH = 29.53058868
+
 
 // sin cos functions
 function dsin (d) {
@@ -500,6 +544,83 @@ SunCalc.phase_hunt = function (sdate) {
     full_date: truephase(k1, FULL),
     q3_date: truephase(k1, LAST),
     nextnew_date: truephase(k2, NEW)
+  }
+}
+
+
+/**
+ * Finds the phase information for specific date.
+ * @param  {Date} phase_date Date to get phase information of.
+ * @return {Object}          Phase data
+ */
+SunCalc.phase = function (phase_date) {
+  if (!phase_date) {
+    phase_date = new Date()
+  }
+  phase_date = fromDate(phase_date)
+
+  const day = phase_date - EPOCH
+
+  // calculate sun position
+  const sun_mean_anomaly =
+    (360.0 / 365.2422) * day +
+    (ECLIPTIC_LONGITUDE_EPOCH - ECLIPTIC_LONGITUDE_PERIGEE)
+  const sun_true_anomaly =
+    2 * toDegree(Math.atan(
+      Math.sqrt((1.0 + ECCENTRICITY) / (1.0 - ECCENTRICITY)) *
+      Math.tan(0.5 * kepler(sun_mean_anomaly, ECCENTRICITY))
+    ))
+  const sun_ecliptic_longitude =
+    ECLIPTIC_LONGITUDE_PERIGEE + sun_true_anomaly
+  const sun_orbital_distance_factor =
+    (1 + ECCENTRICITY * dcos(sun_true_anomaly)) /
+    (1 - ECCENTRICITY * ECCENTRICITY)
+
+  // calculate moon position
+  const moon_mean_longitude =
+    MOON_MEAN_LONGITUDE_EPOCH + 13.1763966 * day
+  const moon_mean_anomaly =
+    moon_mean_longitude - 0.1114041 * day - MOON_MEAN_PERIGEE_EPOCH
+  const moon_evection =
+    1.2739 * dsin(
+      2 * (moon_mean_longitude - sun_ecliptic_longitude) - moon_mean_anomaly
+    )
+  const moon_annual_equation =
+    0.1858 * dsin(sun_mean_anomaly)
+  // XXX: what is the proper name for this value?
+  const moon_mp =
+    moon_mean_anomaly +
+    moon_evection -
+    moon_annual_equation -
+    0.37 * dsin(sun_mean_anomaly)
+  const moon_equation_center_correction =
+    6.2886 * dsin(moon_mp)
+  const moon_corrected_longitude =
+    moon_mean_longitude +
+    moon_evection +
+    moon_equation_center_correction -
+    moon_annual_equation +
+    0.214 * dsin(2.0 * moon_mp)
+  const moon_age =
+    fixangle(
+      moon_corrected_longitude -
+      sun_ecliptic_longitude +
+      0.6583 * dsin(
+        2 * (moon_corrected_longitude - sun_ecliptic_longitude)
+      )
+    )
+  const moon_distance =
+    (MOON_SMAXIS * (1.0 - MOON_ECCENTRICITY * MOON_ECCENTRICITY)) /
+    (1.0 + MOON_ECCENTRICITY * dcos(moon_mp + moon_equation_center_correction))
+
+  return {
+    phase: (1.0 / 360.0) * moon_age,
+    illuminated: 0.5 * (1.0 - dcos(moon_age)),
+    age: (SYNODIC_MONTH / 360.0) * moon_age,
+    distance: moon_distance,
+    angular_diameter: MOON_ANGULAR_SIZE_SMAXIS / moon_distance,
+    sun_distance: SUN_SMAXIS / sun_orbital_distance_factor,
+    sun_angular_diameter: SUN_ANGULAR_SIZE_SMAXIS * sun_orbital_distance_factor
   }
 }
 
