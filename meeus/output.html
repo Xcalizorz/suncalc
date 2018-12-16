@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
+
+
+    <!-- Ajax -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+    <script src="./lib/Astro.js"></script>
+    <script src="./lib/Astro.Coord.js"></script>
+    <script src="./lib/Astro.DeltaT.js"></script>
+    <script src="./lib/Astro.Globe.js"></script>
+    <script src="./lib/Astro.Interp.js"></script>
+    <script src="./lib/Astro.JulianDay.js"></script>
+    <script src="./lib/Astro.Math.js"></script>
+    <script src="./lib/Astro.Moon.js"></script>
+    <script src="./lib/Astro.MoonIllum.js"></script>
+    <script src="./lib/Astro.Nutation.js"></script>
+    <script src="./lib/Astro.Parallax.js"></script>
+    <script src="./lib/Astro.Refraction.js"></script>
+    <script src="./lib/Astro.Rise.js"></script>
+    <script src="./lib/Astro.Sidereal.js"></script>
+    <script src="./lib/Astro.Solar.js"></script> 
+
+    <!-- Output JS -->
+    <script type="text/javascript" src="./output_test.js"></script>
+
+    <title>Testing meuusjs.js</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <h1>Testing meuusjs.js</h1>
+      <h2>Parameter for <span id="city_name_header"></span></h2>
+      
+      <div id="date"></div>
+      
+      <h2>Sun position</h2>
+      <div id="sunpos"></div>
+      
+      <h2>Moon position</h2>
+      <div id="moonpos"></div>
+      
+      <h2>Moon illumination</h2>
+      <div id="moonillum"></div>
+      
+      <h2>Sun times</h2>
+      <div id="suntimes"></div>
+      
+      <h2>Moon times</h2>
+      <div id="moontimes"></div>
+
+      <div class="container-fluid">
+        <form>
+          <div class="form-group row">
+            <label for="date-input" class="col-2 col-form-label">Datetime</label>
+            <div class="col-10">
+              <input class="form-control" type="datetime-local" id="date-input" name="date_input" value="2019-01-06T16:17">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="lat-input" class="col-2 col-form-label">Latitude</label>
+            <div class="col-10">
+              <input class="form-control" type="Number" step="any" value="53.5511" id="lat-input" name="lat_input">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="long-input" class="col-2 col-form-label">Longitude</label>
+            <div class="col-10">
+              <input class="form-control" type="Number" step="any" value="9.9937" id="long-input" name="long_input">
+            </div>
+          </div>
+          <button id="dyn_form_button" type="submit" class="btn btn-primary" onclick="getData(date_input, lat_input, long_input); return false;">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  </body>
+</html>
