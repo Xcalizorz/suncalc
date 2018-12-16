@@ -8,6 +8,29 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
 
+    <!-- Ajax -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+    <script src="./lib/Astro.js"></script>
+    <script src="./lib/Astro.Coord.js"></script>
+    <script src="./lib/Astro.DeltaT.js"></script>
+    <script src="./lib/Astro.Globe.js"></script>
+    <script src="./lib/Astro.Interp.js"></script>
+    <script src="./lib/Astro.JulianDay.js"></script>
+    <script src="./lib/Astro.Math.js"></script>
+    <script src="./lib/Astro.Moon.js"></script>
+    <script src="./lib/Astro.MoonIllum.js"></script>
+    <script src="./lib/Astro.Nutation.js"></script>
+    <script src="./lib/Astro.Parallax.js"></script>
+    <script src="./lib/Astro.Refraction.js"></script>
+    <script src="./lib/Astro.Rise.js"></script>
+    <script src="./lib/Astro.Sidereal.js"></script>
+    <script src="./lib/Astro.Solar.js"></script> 
+
+    <!-- Suncalc JS -->
+    <script type="text/javascript" src="./suncalc.js"></script>
+    <script type="text/javascript" src="./output_test.js"></script>
+
     <title>Testing suncalc.js</title>
   </head>
   <body>
@@ -237,7 +260,13 @@
               <input class="form-control" type="Number" step="any" value="9.9937" id="long-input" name="long_input">
             </div>
           </div>
-          <button id="dyn_form_button" type="submit" class="btn btn-primary" onclick="getData(date_input, lat_input, long_input); return false;">Submit</button>
+          <div class="form-group row">
+            <label for="height-input" class="col-2 col-form-label">Height above see level</label>
+            <div class="col-10">
+              <input class="form-control" type="Number" step="any" value="0" id="height-input" name="height_input">
+            </div>
+          </div>
+          <button id="dyn_form_button" type="submit" class="btn btn-primary" onclick="getData(date_input, lat_input, long_input, height_input); return false;">Submit</button>
         </form>
       </div>
     </div>
