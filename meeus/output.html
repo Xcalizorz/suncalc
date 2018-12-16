@@ -75,7 +75,13 @@
               <input class="form-control" type="Number" step="any" value="9.9937" id="long-input" name="long_input">
             </div>
           </div>
-          <button id="dyn_form_button" type="submit" class="btn btn-primary" onclick="getData(date_input, lat_input, long_input); return false;">Submit</button>
+          <div class="form-group row">
+            <label for="long-input" class="col-2 col-form-label">Height above see level</label>
+            <div class="col-10">
+              <input class="form-control" type="Number" step="any" value="0" id="height-input" name="height_input">
+            </div>
+          </div>
+          <button id="dyn_form_button" type="submit" class="btn btn-primary" onclick="getData(date_input, lat_input, long_input, height_input); return false;">Submit</button>
         </form>
       </div>
     </div>

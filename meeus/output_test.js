@@ -1,13 +1,14 @@
-function getData (test_date, test_lat, test_lng) {
+function getData (test_date, test_lat, test_lng, test_height) {
   test_lat = parseFloat(test_lat.value);
   test_lng = parseFloat(test_lng.value);
+  test_height = parseFloat(test_height.value);
 
   test_date = new Date(test_date.value);
   city_information = parseFloat(test_lat) + ", " + parseFloat(test_lng) + " @ " + test_date;
   document.getElementById("city_name_header").innerHTML = city_information;
 
   var jdo = new A.JulianDay(test_date); 
-  var coord = A.EclCoord.fromWgs84(test_lat, test_lng, 440);
+  var coord = A.EclCoord.fromWgs84(test_lat, test_lng, test_height);
 
   var suntimes = A.Solar.times(jdo, coord);
   var moontimes = A.Moon.times(jdo, coord);
