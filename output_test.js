@@ -98,7 +98,7 @@ function getData (test_date, test_lat, test_lng, test_height) {
   
   document.getElementById("getMoonTimes_moonset2").innerHTML =  moonsetTime;
   document.getElementById("getTimes_sunset2").innerHTML = sunsetTime;
-  document.getElementById("lagTime").innerHTML = SunCalc.lagTime(moonset, sunset);
+  document.getElementById("lagTime").innerHTML = SunCalc.lagTime(moonsetTime, sunsetTime);
 
   var phaseData = SunCalc.phase(test_date);
   document.getElementById("p_age").innerHTML = phaseData.age;
