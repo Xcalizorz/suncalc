@@ -50,8 +50,8 @@ function getData (test_date, test_lat, test_lng, test_height) {
   
 
   // Comparison
-  document.getElementById("getMoonPosition_link").href = "https://www.mooncalc.org/#/" + test_lat + "," + test_lng + ",16/" + new_date + "/" + new_time + "/1/0";
-  document.getElementById("getPosition_link").href = "https://www.suncalc.org/#/" + test_lat + "," + test_lng + ",16/" + new_date + "/" + new_time + "/1/0";
+  document.getElementById("getMoonPosition_link").href = "https://www.mooncalc.org/#/" + test_lat + "," + test_lng + ",16/" + new_date + "/" + new_time + "/" + test_height + "/0";
+  document.getElementById("getPosition_link").href = "https://www.suncalc.org/#/" + test_lat + "," + test_lng + ",16/" + new_date + "/" + new_time + "/" + test_height + "/0";
 
   var moonPositionData = SunCalc.getMoonPosition(test_date, test_lat, test_lng);
   document.getElementById("getMoonPosition_Azimuth").innerHTML = moontp.hz.az;
@@ -96,8 +96,8 @@ function getData (test_date, test_lat, test_lng, test_height) {
   document.getElementById("q3_date").innerHTML = phaseHuntData.q3_date;
   document.getElementById("nextnew_date").innerHTML = phaseHuntData.nextnew_date;
   
-  document.getElementById("getMoonTimes_moonset2").innerHTML =  moonset;
-  document.getElementById("getTimes_sunset2").innerHTML = sunset;
+  document.getElementById("getMoonTimes_moonset2").innerHTML =  moonsetTime;
+  document.getElementById("getTimes_sunset2").innerHTML = sunsetTime;
   document.getElementById("lagTime").innerHTML = SunCalc.lagTime(moonset, sunset);
 
   var phaseData = SunCalc.phase(test_date);
