@@ -147,7 +147,7 @@ function getData (test_date, test_lat, test_lng, test_height) {
   document.getElementById("getPosition_azimuth_sunset").innerHTML = suntp.hz.az;
 
   // Phase Calculations
-  var phaseData = SunCalc.phase(test_date);
+  var phaseData = SunCalc.phase(sunsetTime);
   document.getElementById("p_age_sunset").innerHTML = phaseData.age;
   document.getElementById("p_angular_diameter_sunset").innerHTML = phaseData.angular_diameter;
   document.getElementById("p_moon_earth_distance_sunset").innerHTML = phaseData.distance;
@@ -157,7 +157,6 @@ function getData (test_date, test_lat, test_lng, test_height) {
   document.getElementById("p_sun_distance_sunset").innerHTML = phaseData.sun_distance;
 
   // Moon illumination
-  var moonIlluminationData = SunCalc.getMoonIllumination(test_date);
   document.getElementById("getMoonIllumination_fraction_sunset").innerHTML = k;
   document.getElementById("getMoonIllumination_phase_sunset").innerHTML = i;
   document.getElementById("getMoonIllumination_angle_sunset").innerHTML = j;
